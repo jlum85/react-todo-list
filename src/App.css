@@ -1,22 +1,64 @@
 .App {
-  text-align: center;
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+  height: 100vh;
+  flex-direction: column;
 }
 
-.App-logo {
-  height: 40vmin;
+.text-input {
+  background-color: #eeeeee;
+  border-radius: 10px;
+  border: none;
+  height: 40px;
+  margin-bottom: 10px;
+  width: 200px;
+  padding-left: 15px;
+  padding-right: 15px;
+  outline: none;
+  margin-right: 15px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.listItems {
+  display: flex;
+  /* justify-content: flex-start; */
+  align-items: flex-start;
+  flex-direction: column;
+  /* background-color: red; */
+}
+
+.taskItem {
+  display: flex;
+  /* justify-content: flex-start; */
+  align-items: flex-start;
+  margin-right: 50px;
+}
+
+.taskItem span {
+  margin-right: 20px;
+}
+
+.form {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  width: 400px;
+  margin-bottom: 10px;
 }
 
-.App-link {
-  color: #09d3ac;
+input {
+  height: 30px;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+#submitTask {
+  background-color: rgb(146, 66, 185);
+  color: white;
+  font-weight: bold;
+  /* padding: 15px 40px 15px 40px; */
+  text-transform: uppercase;
 }
