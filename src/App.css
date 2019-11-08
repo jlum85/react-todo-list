@@ -1,52 +1,48 @@
 .App {
   display: flex;
-  /* justify-content: center; */
-  align-items: center;
+  align-items: flex-start;
   height: 100vh;
   flex-direction: column;
+  padding: 30px;
 }
 
-.text-input {
-  background-color: #eeeeee;
-  border-radius: 10px;
-  border: none;
-  height: 40px;
-  margin-bottom: 10px;
-  width: 200px;
-  padding-left: 15px;
-  padding-right: 15px;
-  outline: none;
-  margin-right: 15px;
+.App h1 {
+  color: rgb(84, 97, 106);
+  font-size: 40px;
+}
+
+.search {
+  width: 400px;
+  border-radius: 15px;
+  border: solid;
 }
 
 .listItems {
   display: flex;
-  /* justify-content: flex-start; */
   align-items: flex-start;
   flex-direction: column;
-  /* background-color: red; */
+  margin: 20px 0;
 }
 
 .taskItem {
   display: flex;
-  /* justify-content: flex-start; */
   align-items: flex-start;
-  margin-right: 50px;
+  line-height: 30px;
+  width: 400px;
 }
 
-.taskItem span {
+.btnDel {
   margin-right: 20px;
 }
 
-.form {
-  display: flex;
-  flex-direction: column;
-  width: 400px;
-  margin-bottom: 10px;
+.btnDel:hover {
+  color: rgb(146, 66, 185);
+  font-weight: bold;
 }
 
-input {
-  height: 30px;
+.myTask:hover {
+  color: rgb(146, 66, 185);
+  font-weight: bold;
 }
 
 input[type="number"]::-webkit-inner-spin-button,
@@ -59,6 +55,28 @@ input[type="number"]::-webkit-outer-spin-button {
   background-color: rgb(146, 66, 185);
   color: white;
   font-weight: bold;
-  /* padding: 15px 40px 15px 40px; */
+  height: 40px;
+  padding: 15px 40px 15px 40px;
   text-transform: uppercase;
+  border-radius: 5px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+}
+
+input {
+  height: 30px;
+  /* width: 200px; */
+}
+
+#submitTask {
+  margin-top: 20px;
+  width: 200px;
+}
+
+.todoForm {
+  width: 400px;
 }
