@@ -1,59 +1,37 @@
 import React, { useState } from "react";
 import "./App.css";
 
-let numOrder = -1;
-const getNewNum = () => {
-  numOrder++;
-  return numOrder;
-};
-
-// tableau de données exemples pour l'initialisation , on stocke chaque tache sous forme d'objet avec les attributs suivants
-// addOrder = numéro d'ajout dans la liste
+// tableau de données exemples pour l'initialisation, on stocke chaque tache sous forme d'objet avec les attributs suivants
 // name : nom de la tache
-// done : true / false si true le texte  sera  barré
+// done : true / false si true le texte sera barré
 const tab = [
-  { addOrder: getNewNum(), name: "faire les courses", done: true },
-  { addOrder: getNewNum(), name: "sortir le chien", done: false }
+  { name: "Faire les courses", done: true },
+  { name: "Sortir le chien", done: false }
 ];
 
 function App() {
   const [tasks, setTasks] = useState(tab);
-  const [taskInput, setTaskInput] = useState("");
-  const [taskFilter, setTaskFilter] = useState("");
-
-  // on obtient l'indice de l'objet à modifier en fonction de son nom
-  const getIndexTask = name => {
-    for (let i = 0; i < tasks.length; i++) {
-      if (tasks[i].name === name) {
-        return i;
-      }
-    }
-  };
+  const [taskInput, setTaskInput] = useState(""); // saisie nouvelle tache
+  const [taskFilter, setTaskFilter] = useState(""); // saisie d'un filtre de recherche
 
   const handleSubmit = event => {
     event.preventDefault();
     // copy du tableau d'origine et ajout du nouvel élément
     const newTasks = [...tasks];
-    newTasks.push({ addOrder: getNewNum(), name: taskInput, done: false });
+    newTasks.push({ name: taskInput, done: false });
     setTasks(newTasks);
   };
 
-  const onDeleteClick = event => {
-    const indexToDel = parseInt(event.target.getAttribute("idx"));
-    console.log("Delete: " + indexToDel + " , " + tasks[indexToDel].name);
-    const newTasks = tasks.filter((item, index) => {
-      return index !== indexToDel;
-    });
+  const onDeleteClick = indexToDel => {
+    // on récupère un nouveau tableau qui contient tout sauf l'indice qui correspond à indexToDel
+    const newTasks = tasks.filter((item, index) => index !== indexToDel);
     setTasks(newTasks);
   };
 
-  const onItemClick = event => {
-    const index = getIndexTask(event.target.innerText);
-    if (index >= 0) {
-      const newTasks = [...tasks];
-      newTasks[index].done = !newTasks[index].done;
-      setTasks(newTasks);
-    }
+  const onItemClick = idxDone => {
+    const newTasks = [...tasks];
+    newTasks[idxDone].done = !newTasks[idxDone].done; // on inverse la valeur de l'attribut done
+    setTasks(newTasks);
   };
 
   const getTasks = () => {
@@ -72,29 +50,24 @@ function App() {
     const element = taskAll.map((item, index) => {
       return (
         <div key={index} className="taskItem">
-          <span className="btnDel" idx={index} onClick={onDeleteClick}>
+          <span className="btnDel" onClick={() => onDeleteClick(index)}>
             X
           </span>
-
           <span
-            className="myTask"
-            style={{
-              textDecoration: item.done ? "line-through" : ""
-            }}
-            onClick={onItemClick}
+            className={"myTask " + (item.done ? "taskDone" : "")}
+            onClick={() => onItemClick(index)}
           >
             {item.name}
           </span>
         </div>
       );
     });
-    return element;
+    return element; // liste des taches à afficher après recherche et tri
   };
 
   return (
     <div className="App">
       <h1> To-Do list</h1>
-
       <input
         className="search"
         onChange={event => setTaskFilter(event.target.value)}

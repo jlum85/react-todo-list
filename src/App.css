@@ -80,3 +80,7 @@ input {
 .todoForm {
   width: 400px;
 }
+
+.taskDone {
+  text-decoration: line-through;
+}
