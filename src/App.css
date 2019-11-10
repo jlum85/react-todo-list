@@ -1,9 +1,10 @@
 .App {
   display: flex;
   align-items: flex-start;
-  height: 100vh;
+  height: 90vh;
   flex-direction: column;
   padding: 30px;
+  margin-left: 10px;
 }
 
 .App h1 {
@@ -12,9 +13,23 @@
 }
 
 .search {
-  width: 400px;
-  border-radius: 15px;
-  border: solid;
+  margin: 15px 0;
+  width: 350px;
+  height: 40px;
+  font-size: 20px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  outline: none;
+  padding-left: 50px;
+}
+
+.searchImg {
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  /* left: 8;
+  top: 38px; */
+  border-radius: 50%;
 }
 
 .listItems {
@@ -22,13 +37,19 @@
   align-items: flex-start;
   flex-direction: column;
   margin: 20px 0;
+  /* background-color: rgb(92, 81, 81); */
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: -1px 5px 15px 0 rgba(0, 0, 0, 0.75);
 }
 
 .taskItem {
   display: flex;
   align-items: flex-start;
   line-height: 30px;
-  width: 400px;
+  width: 380px;
+  /* background-color: yellowgreen; */
+  margin: 5px;
 }
 
 .btnDel {
@@ -36,8 +57,9 @@
 }
 
 .btnDel:hover {
-  color: rgb(146, 66, 185);
-  font-weight: bold;
+  stroke: rgb(146, 66, 185);
+  /* width: 32px;
+  height: 32px; */
 }
 
 .myTask:hover {
@@ -69,16 +91,23 @@ form {
 
 input {
   height: 30px;
-  /* width: 200px; */
+  font-size: 16px;
 }
 
 #submitTask {
-  margin-top: 20px;
-  width: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 15px;
+  padding: 10px;
+  width: 250px;
 }
 
 .todoForm {
-  width: 400px;
+  display: flex;
+  flex-direction: column;
+  width: 410px;
+  margin-top: 30px;
 }
 
 .taskDone {
