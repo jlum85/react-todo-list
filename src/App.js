@@ -5,9 +5,15 @@ import "./App.css";
 // tableau de données exemples pour l'initialisation, on stocke chaque tache sous forme d'objet avec les attributs suivants
 // name : nom de la tache
 // done : true / false si true le texte sera barré
+let numId = -1;
+const getNewNum = () => {
+  numId++;
+  return numId;
+};
+
 const tab = [
-  { name: "Publier ToDo list sur Netlify", done: true },
-  { name: "Réaliser un projet démineur", done: false }
+  { name: "Réaliser un projet démineur", done: false, id: getNewNum() },
+  { name: "Publier ToDo list sur Netlify", done: true, id: getNewNum() }
 ];
 
 function App() {
@@ -21,28 +27,50 @@ function App() {
     if (taskInput.trim() !== "") {
       // Copie du tableau d'origine et ajout du nouvel élément
       const newTasks = [...tasks];
-      newTasks.push({ name: taskInput, done: false });
+      newTasks.push({ name: taskInput, done: false, id: getNewNum() });
       setTasks(newTasks);
     }
     setTaskInput("");
   };
 
-  const onDeleteClick = indexToDel => {
-    // On récupère un nouveau tableau qui contient tout sauf l'indice qui correspond à indexToDel
-    const newTasks = tasks.filter((item, index) => index !== indexToDel);
-    setTasks(newTasks);
+  const onDeleteClick = idToDel => {
+    let idxTodel = -1;
+    for (let i = 0; i < tasks.length; i++) {
+      if (tasks[i].id === idToDel) {
+        idxTodel = i;
+        break;
+      }
+    }
+    if (idxTodel >= 0) {
+      // On récupère un nouveau tableau qui contient tout sauf l'indice qui correspond à indexToDel
+      const newTasks = tasks.filter((item, index) => index !== idxTodel);
+      setTasks(newTasks);
+    }
   };
 
-  const onItemClick = idxDone => {
+  const onItemClick = idDone => {
     const newTasks = [...tasks];
-    newTasks[idxDone].done = !newTasks[idxDone].done; // on inverse la valeur de l'attribut done
-    setTasks(newTasks);
+
+    let idx = -1;
+    for (let i = 0; i < newTasks.length; i++) {
+      if (newTasks[i].id === idDone) {
+        idx = i;
+        break;
+      }
+    }
+    if (idx >= 0) {
+      newTasks[idx].done = !newTasks[idx].done; // on inverse la valeur de l'attribut done
+      setTasks(newTasks);
+    }
   };
 
   const getTasks = () => {
     // 1° On filtre en fonction du critère de recherche ( on prend si le texte saisi est présent dans le name )
     const taskSearch = tasks.filter(
-      item => taskFilter === "" || item.name.includes(taskFilter)
+      // item => taskFilter === "" || item.name.includes(taskFilter)
+      item =>
+        taskFilter === "" ||
+        item.name.toLowerCase().includes(taskFilter.toLowerCase())
     );
 
     // 2° Pour mettre les taches effectués en bas, on crée 2 tableaux séparés en fonction de l'attribut done
@@ -55,10 +83,10 @@ function App() {
     if (taskAll.length > 0) {
       const element = taskAll.map((item, index) => {
         return (
-          <div key={index} className="taskItem">
+          <div idx={item.id} key={item.id} className="taskItem">
             <svg
               className="btnDel"
-              onClick={() => onDeleteClick(index)}
+              onClick={() => onDeleteClick(item.id)}
               xmlns="http://www.w3.org/2000/svg"
               width="30"
               height="30"
@@ -75,7 +103,7 @@ function App() {
             </svg>
             <span
               className={"myTask " + (item.done ? "taskDone" : "")}
-              onClick={() => onItemClick(index)}
+              onClick={() => onItemClick(item.id)}
             >
               {item.name}
             </span>
