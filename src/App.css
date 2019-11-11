@@ -112,6 +112,12 @@ input {
   text-decoration: line-through;
 }
 
+.errorMsg {
+  color: red;
+  margin-top: 15px;
+  font-weight: bold;
+}
+
 @media only screen and (min-width: 375px) and (max-width: 812px) {
   .App {
     padding: 10px;

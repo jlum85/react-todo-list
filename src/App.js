@@ -17,21 +17,50 @@ function App() {
   const [tasks, setTasks] = useState(tab);
   const [taskInput, setTaskInput] = useState(""); // saisie nouvelle tache
   const [taskFilter, setTaskFilter] = useState(""); // saisie d'un filtre de recherche
+  const [taskErrorMsg, setTaskErrorMsg] = useState(""); // saisie d'un filtre de recherche
 
   const getIndexFromId = idToFind => {
     return tasks.findIndex(obj => obj.id === idToFind);
+  };
+
+  const onChangeInput = newInput => {
+    let errorMsg = "";
+    if (newInput !== "" && newInput.trim() === "") {
+      errorMsg = "Création de tâche vide non autorisée !!";
+    } else {
+      // vérif si on a une tache de même nom
+      const id = tasks.findIndex(
+        obj => obj.name.toLowerCase() === newInput.toLowerCase()
+      );
+      if (id >= 0) {
+        errorMsg = "Une tâche de même nom existe déja";
+      }
+    }
+    setTaskErrorMsg(errorMsg);
+    setTaskInput(newInput);
   };
 
   const handleSubmit = event => {
     event.preventDefault();
 
     if (taskInput.trim() !== "") {
-      // Copie du tableau d'origine et ajout du nouvel élément
-      const newTasks = [...tasks];
-      newTasks.push({ name: taskInput, done: false, id: getNewNum() });
-      setTasks(newTasks);
+      // vérif si on a une tache de même nom
+      const id = tasks.findIndex(
+        obj => obj.name.toLowerCase() === taskInput.toLowerCase()
+      );
+
+      if (id >= 0) {
+        alert("Une tâche de même nom existe déja");
+      } else {
+        // Copie du tableau d'origine et ajout du nouvel élément
+        const newTasks = [...tasks];
+        newTasks.push({ name: taskInput, done: false, id: getNewNum() });
+        setTasks(newTasks);
+        setTaskInput("");
+      }
+    } else {
+      alert("Création de tâche vide non autorisée !!");
     }
-    setTaskInput("");
   };
 
   const onDeleteClick = idToDel => {
@@ -55,7 +84,6 @@ function App() {
   const getTasks = () => {
     // 1° On filtre en fonction du critère de recherche ( on prend si le texte saisi est présent dans le name )
     const taskSearch = tasks.filter(
-      // item => taskFilter === "" || item.name.includes(taskFilter)
       item =>
         taskFilter === "" ||
         item.name.toLowerCase().includes(taskFilter.toLowerCase())
@@ -144,7 +172,6 @@ function App() {
         </div>
       </div>
 
-      {/* <div className="listItems">{getTasks()} </div> */}
       {getTasks()}
       <div className="todoForm">
         <form onSubmit={handleSubmit}>
@@ -153,11 +180,13 @@ function App() {
             placeholder="Nouvelle tâche"
             type="text"
             value={taskInput}
-            onChange={event => setTaskInput(event.target.value)}
+            // onChange={event => setTaskInput(event.target.value)}
+            onChange={event => onChangeInput(event.target.value)}
           />
           <input id="submitTask" type="submit" value="Ajouter une tâche" />
         </form>
       </div>
+      <div className="errorMsg">{taskErrorMsg} </div>
     </div>
   );
 }
