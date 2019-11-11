@@ -5,11 +5,8 @@ import "./App.css";
 // tableau de données exemples pour l'initialisation, on stocke chaque tache sous forme d'objet avec les attributs suivants
 // name : nom de la tache
 // done : true / false si true le texte sera barré
-let numId = -1;
-const getNewNum = () => {
-  numId++;
-  return numId;
-};
+let numId = 0;
+const getNewNum = () => numId++; // incrément du numéro à chaque appel
 
 const tab = [
   { name: "Réaliser un projet démineur", done: false, id: getNewNum() },
@@ -20,6 +17,10 @@ function App() {
   const [tasks, setTasks] = useState(tab);
   const [taskInput, setTaskInput] = useState(""); // saisie nouvelle tache
   const [taskFilter, setTaskFilter] = useState(""); // saisie d'un filtre de recherche
+
+  const getIndexFromId = idToFind => {
+    return tasks.findIndex(obj => obj.id === idToFind);
+  };
 
   const handleSubmit = event => {
     event.preventDefault();
@@ -34,13 +35,7 @@ function App() {
   };
 
   const onDeleteClick = idToDel => {
-    let idxTodel = -1;
-    for (let i = 0; i < tasks.length; i++) {
-      if (tasks[i].id === idToDel) {
-        idxTodel = i;
-        break;
-      }
-    }
+    let idxTodel = getIndexFromId(idToDel);
     if (idxTodel >= 0) {
       // On récupère un nouveau tableau qui contient tout sauf l'indice qui correspond à indexToDel
       const newTasks = tasks.filter((item, index) => index !== idxTodel);
@@ -50,14 +45,7 @@ function App() {
 
   const onItemClick = idDone => {
     const newTasks = [...tasks];
-
-    let idx = -1;
-    for (let i = 0; i < newTasks.length; i++) {
-      if (newTasks[i].id === idDone) {
-        idx = i;
-        break;
-      }
-    }
+    let idx = getIndexFromId(idDone);
     if (idx >= 0) {
       newTasks[idx].done = !newTasks[idx].done; // on inverse la valeur de l'attribut done
       setTasks(newTasks);
